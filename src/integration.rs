@@ -1,7 +1,5 @@
-//My implementation of integration algorithms
-
 use rayon::prelude::*;
-mod arithmetic;
+use crate::arithmetic;
 
 //Defines useful constants for integration
 const BASE_STEP_SIZE: f64 = 0.000001;
@@ -84,9 +82,9 @@ mod integration_test {
             return x;
         };
         
-        assert_eq!(linear_expected, arithmetic::round_dp(quad_simpson(linear_lower_bound, linear_upper_bound, linear, None), PRECISION));
-        assert_eq!(linear_expected, arithmetic::round_dp(quad_trapezoid(linear_lower_bound, linear_upper_bound, linear, None), PRECISION));
-        assert_eq!(linear_expected, arithmetic::round_dp(par_quad_trapezoid(linear_lower_bound, linear_upper_bound, linear, None), PRECISION));
+        assert_eq!(linear_expected, arithmetic::round_dp(quad_simpson(linear_lower_bound, linear_upper_bound, &linear, None), PRECISION));
+        assert_eq!(linear_expected, arithmetic::round_dp(quad_trapezoid(linear_lower_bound, linear_upper_bound, &linear, None), PRECISION));
+        assert_eq!(linear_expected, arithmetic::round_dp(par_quad_trapezoid(linear_lower_bound, linear_upper_bound, &linear, None), PRECISION));
     }
 
     #[test]
@@ -98,9 +96,9 @@ mod integration_test {
             return x.powi(2);
         };
 
-        assert_eq!(quadratic_expected, arithmetic::round_dp(quad_simpson(quadratic_lower_bound, quadratic_upper_bound, quadratic, None), PRECISION));
-        assert_eq!(quadratic_expected, arithmetic::round_dp(quad_trapezoid(quadratic_lower_bound, quadratic_upper_bound, quadratic, None), PRECISION));
-        assert_eq!(quadratic_expected, arithmetic::round_dp(par_quad_trapezoid(quadratic_lower_bound, quadratic_upper_bound, quadratic, None), PRECISION));
+        assert_eq!(quadratic_expected, arithmetic::round_dp(quad_simpson(quadratic_lower_bound, quadratic_upper_bound, &quadratic, None), PRECISION));
+        assert_eq!(quadratic_expected, arithmetic::round_dp(quad_trapezoid(quadratic_lower_bound, quadratic_upper_bound, &quadratic, None), PRECISION));
+        assert_eq!(quadratic_expected, arithmetic::round_dp(par_quad_trapezoid(quadratic_lower_bound, quadratic_upper_bound, &quadratic, None), PRECISION));
     }
 
     #[test]
@@ -112,9 +110,9 @@ mod integration_test {
             return x.powi(3);
         };
 
-        assert_eq!(cubic_expected, arithmetic::round_dp(quad_simpson(cubic_lower_bound, cubic_upper_bound, cubic, None), PRECISION));
-        assert_eq!(cubic_expected, arithmetic::round_dp(quad_trapezoid(cubic_lower_bound, cubic_upper_bound, cubic, None), PRECISION));
-        assert_eq!(cubic_expected, arithmetic::round_dp(par_quad_trapezoid(cubic_lower_bound, cubic_upper_bound, cubic, None), PRECISION));
+        assert_eq!(cubic_expected, arithmetic::round_dp(quad_simpson(cubic_lower_bound, cubic_upper_bound, &cubic, None), PRECISION));
+        assert_eq!(cubic_expected, arithmetic::round_dp(quad_trapezoid(cubic_lower_bound, cubic_upper_bound, &cubic, None), PRECISION));
+        assert_eq!(cubic_expected, arithmetic::round_dp(par_quad_trapezoid(cubic_lower_bound, cubic_upper_bound, &cubic, None), PRECISION));
     }
 
     #[test]
@@ -123,12 +121,12 @@ mod integration_test {
         let sqrt_upper_bound: f64 = 1.0;
         let sqrt_expected: f64 = arithmetic::round_dp(2.0/3.0, PRECISION);
         let sqrt = |x: f64| -> f64{
-            return x.powf(0.5);
+            return x.sqrt();
         };
 
-        assert_eq!(sqrt_expected, arithmetic::round_dp(quad_simpson(sqrt_lower_bound, sqrt_upper_bound, sqrt, None), PRECISION));
-        assert_eq!(sqrt_expected, arithmetic::round_dp(quad_trapezoid(sqrt_lower_bound, sqrt_upper_bound, sqrt, None), PRECISION));
-        assert_eq!(sqrt_expected, arithmetic::round_dp(par_quad_trapezoid(sqrt_lower_bound, sqrt_upper_bound, sqrt, None), PRECISION));
+        assert_eq!(sqrt_expected, arithmetic::round_dp(quad_simpson(sqrt_lower_bound, sqrt_upper_bound, &sqrt, None), PRECISION));
+        assert_eq!(sqrt_expected, arithmetic::round_dp(quad_trapezoid(sqrt_lower_bound, sqrt_upper_bound, &sqrt, None), PRECISION));
+        assert_eq!(sqrt_expected, arithmetic::round_dp(par_quad_trapezoid(sqrt_lower_bound, sqrt_upper_bound, &sqrt, None), PRECISION));
     }
 
     #[test]
@@ -140,8 +138,8 @@ mod integration_test {
             return x.exp();
         };
 
-        assert_eq!(exp_expected, arithmetic::round_dp(quad_simpson(exp_lower_bound, exp_upper_bound, exponential, None), PRECISION));
-        assert_eq!(exp_expected, arithmetic::round_dp(quad_trapezoid(exp_lower_bound, exp_upper_bound, exponential, None), PRECISION));
-        assert_eq!(exp_expected, arithmetic::round_dp(par_quad_trapezoid(exp_lower_bound, exp_upper_bound, exponential, None), PRECISION));
+        assert_eq!(exp_expected, arithmetic::round_dp(quad_simpson(exp_lower_bound, exp_upper_bound, &exponential, None), PRECISION));
+        assert_eq!(exp_expected, arithmetic::round_dp(quad_trapezoid(exp_lower_bound, exp_upper_bound, &exponential, None), PRECISION));
+        assert_eq!(exp_expected, arithmetic::round_dp(par_quad_trapezoid(exp_lower_bound, exp_upper_bound, &exponential, None), PRECISION));
     }
 }

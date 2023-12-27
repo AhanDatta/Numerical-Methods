@@ -1,8 +1,6 @@
 // base step size for differentiation defined by h = 2 * sqrt(MACHINE_EPSILON) for 64 bit float
 const BASE_STEP_SIZE: f64 = 0.000000029802322387695313;
 
-mod arithmetic;
-
 //Using the finite symmetic difference df/dx = (f(x+h) - f(x-h))/2h
 pub fn symmetric_differentiation<F> (point: f64, function: F, resolution: Option<f64>) -> f64 where F: Fn(f64) -> f64 {
     //A approximation of the optimal step size, overridden by the optional arg
@@ -23,12 +21,12 @@ pub fn stencil_differentiation<F>(point: f64, function: F, resolution: Option<f6
     return answer;
 }
 
-fn main() {
-}
+fn main() {}
 
 //Testing differentiation on various functions 
 mod differentiation_test {
     use super::*;
+    use crate::arithmetic;
 
     const PRECISION: usize = 10;
 
