@@ -47,10 +47,6 @@ pub fn arrange (start_point: f64, end_point: f64, resolution: f64) -> Vec<f64> {
     return answer;
 }
 
-fn main() {
-
-}
-
 mod arithmetic_test {
     use super::*;
 

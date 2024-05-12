@@ -38,10 +38,6 @@ pub fn recursive_newton_iter<F: Fn(f64) -> f64> (f: F, input: f64, iter_count: u
     return recursive_newton_iter(f, x, iter_count - 1);
 }
 
-fn main () {
-    
-}
-
 mod root_finding_test {
     use crate::root_finding::*;
 
