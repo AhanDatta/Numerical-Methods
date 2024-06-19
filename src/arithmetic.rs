@@ -47,6 +47,27 @@ pub fn arrange (start_point: f64, end_point: f64, resolution: f64) -> Vec<f64> {
     return answer;
 }
 
+//Assumes fixed inputs of a, b, a != 0 or b != 0
+fn gcd(a: u64, b: u64) -> Result<u64, String> {
+    //base case of a == 0 
+    if a == 0 {
+        if b == 0 {
+            return Err("GCD of 0 with 0 is ill-defined.".to_string());
+        }
+        else{
+            return Ok(b);
+        }
+    }
+
+    //fixes direction of inequality
+    if a > b {
+        return gcd(b,a);
+    }
+    else {
+        return gcd(b.rem_euclid(a), a); //recursive step of subtracting a from b
+    }
+}
+
 mod arithmetic_test {
     use super::*;
 
@@ -60,5 +81,20 @@ mod arithmetic_test {
     #[test]
     fn precision_greater_than_dec() {
         assert_eq!(0.5, round_dp(0.5, 5));
+    }
+
+    #[test]
+    fn gcd_of_15_50() {
+        assert_eq!(5, gcd(15,50).unwrap()); //have to hardcode the gcd bc rust doesnt have it in std??
+    }
+
+    #[test]
+    fn gcd_of_50_15() {
+        assert_eq!(gcd(50,15).unwrap(), gcd(15,50).unwrap()); //have to hardcode the gcd bc rust doesnt have it in std??
+    }
+
+    #[test]
+    fn gcd_both_zero() {
+        assert!(gcd(0, 0).is_err());
     }
 }
